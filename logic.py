@@ -18,7 +18,7 @@ def Status(mat):
     for i in range(4):
         for j in range(4):
             if mat[i][j]==2048:
-                return "YOU WON!"
+                return "WON"
 
     for i in range(4):
         for j in range(4):
