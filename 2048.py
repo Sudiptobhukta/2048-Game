@@ -1,4 +1,4 @@
-#from cProfile import label
+from cProfile import label
 from tkinter import Frame, Label,CENTER
 import logic
 import constants as c
@@ -13,11 +13,11 @@ class Game2048(Frame):
 
         self.grid() #this forms the grid inside the Frame that we just made 🔼above
         self.master.title('2048')
-        self.master.bind("<key>",self.key_down)
+        self.master.bind("<Key>",self.key_down)
         self.commands = {c.KEY_UP: logic.move_up, c.KEY_DOWN: logic.move_down,
                           c.KEY_LEFT: logic.move_left, c.KEY_RIGHT: logic.move_right}
         
-        self.grid_cell = []
+        self.grid_cell =list()
         self.init_grid()
         self.init_matrix()
         self.updated_grid_cell()
@@ -55,16 +55,15 @@ class Game2048(Frame):
         logic.Random_2(self.matrix)
         logic.Random_2(self.matrix)
 
-    def update_grid_cell(self):
+    def updated_grid_cell(self):
         for i in range(c.GRID_LEN):
             for j in range(c.GRID_LEN):
                 new_number = self.matrix[i][j]
                 if new_number ==0:
-                    self.grid_cell[i][j].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+                    self.grid_cell[i] [j].configure(text=" ", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 
                 else:
-                    self.grid_cell[i][j].configure(text=str(new_number),bg = c.BACKGROUND_COLOR_DICT[new_number], 
-                    fg=c.CELL_COLOR_DICT[new_number])
+                    self.grid_cell[i] [j].configure(text=str(new_number),bg = c.BACKGROUND_COLOR_DICT[new_number],fg=c.CELL_COLOR_DICT[new_number])
         self.update_idletasks() #this function will make the updated_grid_cell wait untill all the cells and colour are changed
 
     def key_down(self,event):
@@ -73,7 +72,7 @@ class Game2048(Frame):
             self.matrix,changed = self.commands[repr(event.char)](self.matrix)
             if changed:
                 logic.Random_2(self.matrix)
-                self.update_grid_cell()
+                self.updated_grid_cell()
                 changed= False
                 if logic.Status(self.matrix)=='WON':
                     self.grid_cell[1][1].configure(text="YOU", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
