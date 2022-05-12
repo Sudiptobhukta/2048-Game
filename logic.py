@@ -41,7 +41,7 @@ def Status(mat):
     return "LOST"
 
 def compress(mat):
-    flag = False
+    changed = False
     new_mat=[]
     for i in range(4):
         new_mat.append([0]*4)
@@ -52,19 +52,19 @@ def compress(mat):
             if mat[i][j]!=0:
                 new_mat[i][pos] = mat[i][j]
                 if j!=pos:
-                    flag = True
+                    changed = True
                 pos+=1
-    return new_mat,flag
+    return new_mat,changed
 
 def merge(mat):
-    flag = False
+    changed = False
     for i in range(4):
         for j in range(3):
             if mat[i][j]==mat[i][j+1] and mat[i][j]!=0:
                 mat[i][j] = 2*mat[i][j]
                 mat[i][j+1]=0
-                flag  = True
-    return mat,flag
+                changed  = True
+    return mat,changed
 
 def transpose(mat):
     new_mat=[]
@@ -83,39 +83,39 @@ def reverse(mat):
     return new_mat
 
 def move_up(board):
-    matr = transpose(board)
-    matr,flag1 = compress(matr)
-    matr,flag2 = merge(matr)
-    flag = flag1 or flag2
-    matr= compress(matr)
+    transpose_matr = transpose(board)
+    matr,changed1 = compress(transpose_matr)
+    matr,changed2 = merge(matr)
+    changed = changed1 or changed2
+    matr,temp= compress(matr)
     final_out = transpose(matr)
-    return final_out,flag
+    return final_out,changed
 
 def move_down(board):
     matr = transpose(board)
     matr = reverse(matr)
-    matr,flag1 = compress(matr)
-    matr,flag2 = merge(matr)
-    flag = flag1 or flag2
-    matr = compress(matr)
+    matr,changed1 = compress(matr)
+    matr,changed2 = merge(matr)
+    changed = changed1 or changed2
+    matr,temp = compress(matr)
     matr= reverse(matr)
     final_out = transpose(matr)
-    return final_out,flag
+    return final_out,changed
 
 def move_right(board):
     matr = reverse(board)
-    matr,flag1 = compress(matr)
-    matr,flag2 = merge(matr)
-    flag = flag1 or flag2
-    matr= compress(matr)
+    matr,changed1 = compress(matr)
+    matr,changed2 = merge(matr)
+    changed = changed1 or changed2
+    matr,temp= compress(matr)
     final_out = reverse(matr)
-    return final_out,flag
+    return final_out,changed
 
 def move_left(board):
-    matr,flag1 = compress(matr)
-    matr,flag2 = merge(matr)
-    flag = flag1 or flag2
-    matr= compress(matr)
-    return matr,flag
+    matr,changed1 = compress(board)
+    matr,changed2 = merge(matr)
+    changed = changed1 or changed2
+    matr,temp= compress(matr)
+    return matr,changed
 
 
